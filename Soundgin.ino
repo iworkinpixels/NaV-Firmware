@@ -44,15 +44,18 @@ void MyHandleNoteOn(byte channel, byte pitch, byte velocity) {
 
   if (velocity == 0) {//A NOTE ON message with a velocity = Zero is actualy a NOTE OFF
     if (pitch == newNote){
+      flash(4);
       newNote = 0;
       trigger(pgm_read_byte(&lookup[currentNote]));
     }
     else if (pitch == currentNote && newNote != 0){
       currentNote = newNote;
+      flash(5);
       newNote = 0;
       trigger(pgm_read_byte(&lookup[currentNote]));
     }
     else if (pitch == currentNote && newNote == 0){
+      flash(6);
       release();
       currentNote = 0;
       newNote = 0;
@@ -65,7 +68,7 @@ void flash(int times) {
     digitalWrite(LED, HIGH);
     delay(50);
     digitalWrite(LED, LOW);
-    delay(100);
+    delay(150);
   }
 }
 
