@@ -29,6 +29,7 @@ void initPatch() // Patch - Initialize Soundgin & set Osc A1 to square wave
  released, the original note is retriggered.
  */
 void MyHandleNoteOn(byte channel, byte pitch, byte velocity) { 
+  digitalWrite(LED, HIGH);
   if (currentNote == 0) {
     currentNote = pitch;
     trigger(pgm_read_byte(&lookup[currentNote]));
@@ -40,6 +41,7 @@ void MyHandleNoteOn(byte channel, byte pitch, byte velocity) {
 }
 
 void MyHandleNoteOff(byte channel, byte pitch, byte velocity) { 
+  digitalWrite(LED, LOW);
   if (pitch == newNote){
     newNote = 0;
     trigger(pgm_read_byte(&lookup[currentNote]));
