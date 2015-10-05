@@ -208,7 +208,3 @@ void loop() // Main Loop
   menu(); // Check state of Rotary Encoder and Buttons - Update LCD
 }
 
-
-
-
-
