@@ -188,9 +188,10 @@ void setup()
   Wire.begin();
   soundgin.begin(9600); //Set Software Serial Baud Rate to 9600
   //initPatch(); //Run patch function - Initializes and sets up sound on Soundgin Chip
-  MIDI.begin(); // Initialize the Midi Library.
   MIDI.setHandleNoteOn(MyHandleNoteOn); //set MyHandleNoteOn as the callback function
-
+  MIDI.setHandleNoteOff(MyHandleNoteOff); // set MyHandleNoteOff as the callback function
+  MIDI.begin(); // Initialize the Midi Library.
+  
     // Print to LCD
   lcd.begin(20, 4);
   delay(500);

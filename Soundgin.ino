@@ -29,46 +29,30 @@ void initPatch() // Patch - Initialize Soundgin & set Osc A1 to square wave
  released, the original note is retriggered.
  */
 void MyHandleNoteOn(byte channel, byte pitch, byte velocity) { 
-  if (velocity != 0) { 
-    if (currentNote == 0) {
-      flash(2);
-      currentNote = pitch;
-      trigger(pgm_read_byte(&lookup[currentNote]));
-    }
-    else {
-      flash(3);
-      newNote = pitch;
-      trigger(pgm_read_byte(&lookup[newNote]));
-    }
+  if (currentNote == 0) {
+    currentNote = pitch;
+    trigger(pgm_read_byte(&lookup[currentNote]));
   }
-
-  if (velocity == 0) {//A NOTE ON message with a velocity = Zero is actualy a NOTE OFF
-    if (pitch == newNote){
-      flash(4);
-      newNote = 0;
-      trigger(pgm_read_byte(&lookup[currentNote]));
-    }
-    else if (pitch == currentNote && newNote != 0){
-      currentNote = newNote;
-      flash(5);
-      newNote = 0;
-      trigger(pgm_read_byte(&lookup[currentNote]));
-    }
-    else if (pitch == currentNote && newNote == 0){
-      flash(6);
-      release();
-      currentNote = 0;
-      newNote = 0;
-    }
+  else {
+    newNote = pitch;
+    trigger(pgm_read_byte(&lookup[newNote]));
   }
 }
 
-void flash(int times) {
-  for (int x=0; x<times; x++) {
-    digitalWrite(LED, HIGH);
-    delay(50);
-    digitalWrite(LED, LOW);
-    delay(150);
+void MyHandleNoteOff(byte channel, byte pitch, byte velocity) { 
+  if (pitch == newNote){
+    newNote = 0;
+    trigger(pgm_read_byte(&lookup[currentNote]));
+  }
+  else if (pitch == currentNote && newNote != 0){
+    currentNote = newNote;
+    newNote = 0;
+    trigger(pgm_read_byte(&lookup[currentNote]));
+  }
+  else if (pitch == currentNote && newNote == 0){
+    release();
+    currentNote = 0;
+    newNote = 0;
   }
 }
 
